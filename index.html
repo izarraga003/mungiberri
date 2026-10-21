@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mungiberri Txoko · Herriko Elkargunea</title>
+  <meta name="description" content="Mungiberri Elkartea · Herriko Elkargunea — txokoaren erreserbak kudeatzeko gunea." />
+  <link rel="icon" href="img/logoa.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#5c7558" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Txoko" />
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=4" />
+</head>
+<body>
+
+  <!-- =================== LOGIN =================== -->
+  <main id="login-view" class="login-wrap">
+    <section class="login-hero" aria-hidden="true">
+      <img src="img/estiloa.png" alt="" class="hero-img" />
+    </section>
+    <section class="login-panel">
+      <div class="login-card">
+        <img src="img/logoa.png" alt="Mungiberri Elkartea" class="login-logo" />
+        <h1 class="brand-title">HERRIKO<br><span>ELKARGUNEA</span></h1>
+        <p class="brand-sub">Mungiberri Elkartea · Txokoaren erreserbak</p>
+
+        <form id="login-form" class="form" autocomplete="on">
+          <label class="field">
+            <span>Helbide elektronikoa</span>
+            <input type="email" id="login-email" required placeholder="zure@emaila.eus" autocomplete="username" />
+          </label>
+          <label class="field">
+            <span>Pasahitza</span>
+            <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password" />
+          </label>
+          <button type="submit" class="btn btn-primary btn-block" id="login-btn">Saioa hasi</button>
+          <p class="form-error" id="login-error" hidden></p>
+        </form>
+        <button type="button" class="link-btn" id="forgot-link">Pasahitza ahaztu zait?</button>
+
+        <!-- Pasahitza berrezartzeko eskaera (emaila) -->
+        <form id="forgot-form" class="form" hidden>
+          <p class="form-hint">Idatzi zure helbide elektronikoa eta pasahitza berrezartzeko esteka bidaliko dizugu.</p>
+          <label class="field">
+            <span>Helbide elektronikoa</span>
+            <input type="email" id="forgot-email" required placeholder="zure@emaila.eus" autocomplete="username" />
+          </label>
+          <button type="submit" class="btn btn-primary btn-block" id="forgot-btn">Berrezartzeko esteka bidali</button>
+          <p class="form-error" id="forgot-error" hidden></p>
+          <p class="form-ok" id="forgot-ok" hidden></p>
+          <button type="button" class="link-btn" id="forgot-back">← Saioa hastera itzuli</button>
+        </form>
+
+        <!-- Pasahitz berria ezarri (emaileko estekatik itzultzean) -->
+        <form id="recovery-form" class="form" hidden>
+          <p class="form-hint">Idatzi zure pasahitz berria.</p>
+          <label class="field">
+            <span>Pasahitz berria</span>
+            <input type="password" id="rec-new" required minlength="6" placeholder="••••••••" autocomplete="new-password" />
+          </label>
+          <label class="field">
+            <span>Errepikatu pasahitza</span>
+            <input type="password" id="rec-rep" required minlength="6" placeholder="••••••••" autocomplete="new-password" />
+          </label>
+          <button type="submit" class="btn btn-primary btn-block" id="rec-btn">Pasahitza gorde</button>
+          <p class="form-error" id="rec-error" hidden></p>
+        </form>
+
+        <p class="login-foot">Bazkideentzat soilik. Sarbiderik ez baduzu, jarri harremanetan administratzailearekin.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- =================== APLIKAZIOA =================== -->
+  <div id="app-view" hidden>
+    <header class="topbar">
+      <div class="topbar-left">
+        <img src="img/logoa.png" alt="" class="topbar-logo" />
+        <div class="topbar-titles">
+          <strong>Herriko Elkargunea</strong>
+          <small>Mungiberri Txoko</small>
+        </div>
+      </div>
+      <nav class="topbar-nav">
+        <button class="navbtn is-active" id="nav-calendar">Egutegia</button>
+        <button class="navbtn" id="nav-admin" hidden>Kudeaketa</button>
+        <button class="navbtn" id="nav-account">Nire kontua</button>
+      </nav>
+      <div class="topbar-right">
+        <span class="hi" id="hi-user">Kaixo</span>
+        <button class="btn btn-ghost" id="logout-btn">Saioa itxi</button>
+      </div>
+    </header>
+
+    <!-- ---------- EGUTEGIA ---------- -->
+    <main id="calendar-section" class="container">
+      <div class="cal-head">
+        <button class="iconbtn" id="prev-month" aria-label="Aurreko hilabetea">‹</button>
+        <h2 id="month-label">—</h2>
+        <button class="iconbtn" id="next-month" aria-label="Hurrengo hilabetea">›</button>
+        <button class="btn btn-ghost btn-today" id="today-btn">Gaur</button>
+      </div>
+
+      <div class="legend">
+        <span><i class="dot dot-res"></i> Erreserbak</span>
+        <span><i class="dot dot-full"></i> Beteta (25/25)</span>
+        <span><i class="dot dot-blocked"></i> Blokeatuta</span>
+        <span><i class="dot dot-elk"></i> Elkargunearen erreserba</span>
+      </div>
+
+      <div class="calendar">
+        <div class="weekdays">
+          <span>Al</span><span>Ar</span><span>Az</span><span>Og</span><span>Or</span><span>La</span><span>Ig</span>
+        </div>
+        <div class="grid" id="cal-grid"></div>
+      </div>
+    </main>
+
+    <!-- ---------- KUDEAKETA (ADMIN) ---------- -->
+    <main id="admin-section" class="container" hidden>
+      <div class="admin-tabs">
+        <button class="tab is-active" data-tab="members">Bazkideak</button>
+        <button class="tab" data-tab="blocked">Blokeatutako egunak</button>
+        <button class="tab" data-tab="history">Erreserben historia</button>
+      </div>
+
+      <!-- Bazkideak -->
+      <section class="tabpane" id="pane-members">
+        <div class="panel">
+          <h3>Bazkide berria</h3>
+          <form id="new-member-form" class="form form-row">
+            <label class="field"><span>Izen-abizenak</span><input type="text" id="nm-name" required /></label>
+            <label class="field"><span>Emaila</span><input type="email" id="nm-email" required /></label>
+            <label class="field"><span>Hasierako pasahitza</span><input type="text" id="nm-pass" required minlength="6" /></label>
+            <label class="field field-narrow"><span>Mota</span>
+              <select id="nm-role"><option value="bazkide">Bazkidea</option><option value="admin">Administratzailea</option></select>
+            </label>
+            <button type="submit" class="btn btn-primary">Sortu</button>
+          </form>
+          <p class="form-error" id="nm-error" hidden></p>
+        </div>
+        <div class="panel">
+          <h3>Bazkideak</h3>
+          <div class="table-wrap"><table class="table" id="members-table">
+            <thead><tr><th>Izena</th><th>Emaila</th><th>Mota</th><th>Ekintzak</th></tr></thead>
+            <tbody></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- Blokeatutako egunak -->
+      <section class="tabpane" id="pane-blocked" hidden>
+        <div class="panel">
+          <h3>Egun bat blokeatu</h3>
+          <form id="block-form" class="form form-row">
+            <label class="field"><span>Eguna</span><input type="date" id="blk-date" required /></label>
+            <label class="field"><span>Arrazoia (aukerakoa)</span><input type="text" id="blk-reason" placeholder="Garbiketa, oporrak..." /></label>
+            <button type="submit" class="btn btn-primary">Blokeatu</button>
+          </form>
+          <p class="form-error" id="blk-error" hidden></p>
+        </div>
+        <div class="panel">
+          <h3>Blokeatutako egunak</h3>
+          <div class="table-wrap"><table class="table" id="blocked-table">
+            <thead><tr><th>Eguna</th><th>Arrazoia</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- Historia -->
+      <section class="tabpane" id="pane-history" hidden>
+        <div class="panel">
+          <h3>Erreserba guztiak</h3>
+          <div class="filters">
+            <label class="field"><span>Bazkidea</span><select id="hist-member"><option value="">Denak</option></select></label>
+            <label class="field"><span>Noiztik</span><input type="date" id="hist-from" /></label>
+            <label class="field"><span>Noiz arte</span><input type="date" id="hist-to" /></label>
+            <button class="btn btn-ghost" id="hist-clear">Garbitu</button>
+          </div>
+          <div class="table-wrap"><table class="table" id="history-table">
+            <thead><tr><th>Eguna</th><th>Ordutegia</th><th>Lagunak</th><th>Bazkidea</th><th>Oharra</th></tr></thead>
+            <tbody></tbody>
+          </table></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ---------- NIRE KONTUA ---------- -->
+    <main id="account-section" class="container" hidden>
+      <div class="panel">
+        <h3>Nire datuak</h3>
+        <form id="account-form" class="mini-form">
+          <label class="field"><span>Izen-abizenak</span><input type="text" id="acc-name" required /></label>
+          <button type="submit" class="btn btn-primary">Gorde</button>
+        </form>
+        <p class="form-error" id="acc-error" hidden></p>
+      </div>
+      <div class="panel">
+        <h3>Pasahitza aldatu</h3>
+        <form id="password-form" class="mini-form">
+          <label class="field"><span>Pasahitz berria</span><input type="password" id="pw-new" required minlength="6" autocomplete="new-password" /></label>
+          <label class="field"><span>Errepikatu pasahitza</span><input type="password" id="pw-rep" required minlength="6" autocomplete="new-password" /></label>
+          <button type="submit" class="btn btn-primary">Aldatu</button>
+        </form>
+        <p class="form-error" id="pw-error" hidden></p>
+      </div>
+    </main>
+  </div>
+
+  <!-- =================== EGUNAREN PANELA (modala) =================== -->
+  <div class="modal" id="day-modal" hidden>
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="day-title">—</h3>
+        <button class="iconbtn" id="day-close" aria-label="Itxi">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="occupancy" id="day-occupancy"></div>
+        <div id="day-list" class="res-list"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-primary btn-block" id="day-new-btn">+ Erreserba berria</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================== ERRESERBA FORMULARIOA (modala) =================== -->
+  <div class="modal" id="res-modal" hidden>
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="res-modal-title">Erreserba berria</h3>
+        <button class="iconbtn" id="res-close" aria-label="Itxi">×</button>
+      </div>
+      <form id="res-form" class="form modal-body">
+        <input type="hidden" id="res-id" />
+        <label class="field"><span>Eguna</span><input type="date" id="res-date" required /></label>
+        <div class="two-cols">
+          <label class="field"><span>Iristeko ordua</span><input type="time" id="res-start" required step="300" /></label>
+          <label class="field"><span>Irteteko ordua</span><input type="time" id="res-end" required step="300" /></label>
+        </div>
+        <label class="field">
+          <span>Pertsona kopurua <small>(gehienez 25)</small></span>
+          <input type="number" id="res-people" required min="1" max="25" value="2" />
+        </label>
+        <label class="field"><span>Oharra (aukerakoa)</span><input type="text" id="res-notes" placeholder="Afaria, urtebetetzea..." /></label>
+        <p class="form-error" id="res-error" hidden></p>
+        <div class="modal-foot inline">
+          <button type="button" class="btn btn-danger" id="res-delete-btn" hidden>Ezabatu</button>
+          <span class="spacer"></span>
+          <button type="button" class="btn btn-ghost" id="res-cancel-btn">Utzi</button>
+          <button type="submit" class="btn btn-primary" id="res-save-btn">Gorde</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="app.js?v=5"></script>
+</body>
+</html>

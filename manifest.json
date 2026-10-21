@@ -1,0 +1,18 @@
+{
+  "name": "Mungiberri Txoko — Herriko Elkargunea",
+  "short_name": "Txoko",
+  "description": "Mungiberri Elkartea — txokoaren erreserbak.",
+  "lang": "eu",
+  "dir": "ltr",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#5c7558",
+  "theme_color": "#5c7558",
+  "icons": [
+    { "src": "img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "img/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
